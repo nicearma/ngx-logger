@@ -28,8 +28,9 @@ Common tasks are present as npm scripts:
 [travis-badge]: https://travis-ci.org/julienbourgain/angular-ngx-logger.svg?branch=master
 [travis-badge-url]: https://travis-ci.org/julienbourgain/angular-ngx-logger
 
-To use this librairie :
-@NgModule({
+*To use this librairie :*
+
+`@NgModule({
   imports: [
     LoggerModule.forRoot(LogLevelEnum.debug) // Set here the minimum log level
   ],
@@ -40,15 +41,40 @@ To use this librairie :
 export class LoggerModule {
   // Inject eager provider to avoid lazy loading for this
   constructor(private consoleConsumer: ConsoleConsumer) {}
-}
+}`
 
-To write some log consumers : 
-@Injectable()
+*To write some log consumers :*
+
+`@Injectable()
 export class ConsoleConsumer {
   constructor(private loggerService: LoggerService) {
     loggerService.getLogs()
       .subscribe(log => console[LogLevelEnum[log.level]](... log.payload));
   }
-}
+}`
 
 Just replace "console[LogLevelEnum[log.level]](... log.payload)" with your own code and instantiate your consumer.
+
+*For use the logger :*
+
+You have to inject in your constructor the LoggerService and get an new instance given the class name (prefix) and use this instance for log the information
+
+Example: 
+
+`export class AppComponent implements OnInit {
+  logger: Logger;
+
+  constructor(loggerService: LoggerService) {
+    this.logger = loggerService.create(this.constructor.name);
+  }
+
+  ngOnInit() {
+    this.logger.log('Init App component');
+    setInterval(() => {
+      this.logger.warn('Interval', new Date());
+    }, 1000);
+
+  }
+
+}`
+
