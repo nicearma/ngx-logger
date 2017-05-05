@@ -1,8 +1,9 @@
-import { Inject, Injectable, Optional } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Log } from '../entities/log';
 import { LogLevelEnum } from '../entities/log-level.enum';
 import { LogLevel } from '../log-level';
+import {Logger} from "../entities/logger";
 
 @Injectable()
 export class LoggerService {
@@ -31,12 +32,3 @@ export class LoggerService {
   }
 
 }
-
-export interface Logger {
-  log(...args:any[]): void,
-  info(...args:any[]): void,
-  warn(...args:any[]): void,
-  error(...args:any[]): void,
-}
-
-
