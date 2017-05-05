@@ -30,7 +30,8 @@ Common tasks are present as npm scripts:
 
 *To use this librairie :*
 
-`@NgModule({
+```typescript
+@NgModule({
   imports: [
     LoggerModule.forRoot(LogLevelEnum.debug) // Set here the minimum log level
   ],
@@ -41,19 +42,22 @@ Common tasks are present as npm scripts:
 export class LoggerModule {
   // Inject eager provider to avoid lazy loading for this
   constructor(private consoleConsumer: ConsoleConsumer) {}
-}`
+}
+```
 
 *To write some log consumers :*
 
-`@Injectable()
+```typescript
+@Injectable()
 export class ConsoleConsumer {
   constructor(private loggerService: LoggerService) {
     loggerService.getLogs()
       .subscribe(log => console[LogLevelEnum[log.level]](... log.payload));
   }
-}`
+}
+```
 
-Just replace "console[LogLevelEnum[log.level]](... log.payload)" with your own code and instantiate your consumer.
+Just replace `console[LogLevelEnum[log.level]](... log.payload)` with your own code and instantiate your consumer.
 
 *For use the logger :*
 
@@ -61,7 +65,8 @@ You have to inject in your constructor the LoggerService and get an new instance
 
 Example: 
 
-`export class AppComponent implements OnInit {
+```typescript
+export class AppComponent implements OnInit {
   logger: Logger;
 
   constructor(loggerService: LoggerService) {
@@ -76,5 +81,6 @@ Example:
 
   }
 
-}`
+}
+```
 
